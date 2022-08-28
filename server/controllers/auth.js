@@ -3,15 +3,12 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import User from "../models/userSchema.js";
 
-
 const router = express.Router();
-
 
 //SIGN IN
 export const signin = async (req, res) => {
-  
   const { email, password } = req.body;
-  if (!email|| !password) {
+  if (!email || !password) {
     res.status(200).json({ message: "All field of data must be required" });
   }
 
@@ -35,7 +32,7 @@ export const signin = async (req, res) => {
       "KEY",
       { expiresIn: "1h" }
     );
-    // res.cookie("token", token,{httpOnly:true}).send(username);  
+    // res.cookie("token", token,{httpOnly:true}).send(username);
     res.status(200).json({ result: existingUser, token });
   } catch (error) {
     console.log(error);
@@ -43,13 +40,18 @@ export const signin = async (req, res) => {
   }
 };
 
-
 //SIGN UP
 export const signup = async (req, res) => {
-  
-  const { address, email, username, password, phoneNumber, confirmPassword, bankid } =
-    req.body;
-  // console.log(req.body);
+  const {
+    address,
+    email,
+    username,
+    password,
+    phoneNumber,
+    confirmPassword,
+    bankid,
+  } = req.body;
+  console.log(req.body);
 
   if (
     !username ||
@@ -65,8 +67,9 @@ export const signup = async (req, res) => {
   }
 
   try {
-    const existingUser = await User.findOne({email})
-    
+    const existingUser = await User.findOne({ email });
+
+
     if (existingUser)
       return res.status(400).json({ message: "User already exists." });
 
@@ -74,15 +77,16 @@ export const signup = async (req, res) => {
       return res.status(400).json({ message: "Passwords don't match." });
 
     const hashedPassword = await bcrypt.hash(password, 12);
-   
+
     const result = await User.create({
       email,
       password: hashedPassword,
       username,
       address,
       phoneNumber,
-      bankid
+      bankid,
     });
+    console.log(result);
     const token = jwt.sign({ email: result.email, id: result._id }, "KEY", {
       expiresIn: "1h",
     });
@@ -91,17 +95,14 @@ export const signup = async (req, res) => {
     res.status(200).json({ result, token });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Something went wrong." });
+    res.status(500).json({ message: error.message });
   }
-
 };
 
 //SIGN OUT
 export const signout = (req, res) => {
   res.clearCookie("token").send("Successfully logged out.");
 };
-
-
 
 // export const userinfo = (req, res) => {
 //   USERS.map((user) => {

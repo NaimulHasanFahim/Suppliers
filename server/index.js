@@ -4,15 +4,10 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
-import addproducts from './routes/addproducts.js';
 import authRoutes from './routes/auth.js';
-import deleteproduct from './routes/deleteproduct.js';
-import products from './routes/products.js';
+import orderRoutes from './routes/order.js';
+import productRoutes from './routes/product.js';
 
-import orderlist from './routes/orderlist.js';
-
-import addOrder from './routes/addOrder.js';
-import updateOrder from './routes/updateOrder.js';
 
 
 
@@ -31,16 +26,14 @@ app.use(bodyParser.urlencoded({limit: "30mb", extended: true}));
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({extended: true}));
 
-app.use('/auth', authRoutes);
+//SIGNIN SIGNUP SIGNOUT
+app.use('/api/auth', authRoutes);
 
-app.use('/addProducts',addproducts);
-app.use('/deleteProduct',deleteproduct);
-app.use('/products',products);
+// ADD DELETE UPDATE PRODUCT
+app.use('/api/product',productRoutes);
 
-app.use('/orderlist',orderlist);
-app.use('/addOrder',addOrder);
-app.use('/updateOrder',updateOrder);
-
+// HANDLE ORDERS
+app.use('/api/order',orderRoutes);
 
 const PORT = process.env.PORT || 5000;
 mongoose.connect(process.env.CONNECTION_URL,{ useNewUrlParser: true, useUnifiedTopology: true})
