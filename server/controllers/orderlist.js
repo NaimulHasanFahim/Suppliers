@@ -1,23 +1,7 @@
-import bcrypt from "bcryptjs";
 import express from "express";
-// import PostMessage from '../models/postMessage.js';
-import fs from "fs";
-import jwt from "jsonwebtoken";
-///DATABASE
+
 import orderlist from "../models/orderlistSchema.js";
 const router = express.Router();
-
-///DATABASEE
-let USERS = [];
-
-fs.readFile("./../server/database/user.json", "utf8", (err, data) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-  USERS = JSON.parse(data);
-  // console.log(data);
-});
 
 
 export const showorders = async (req, res) => {

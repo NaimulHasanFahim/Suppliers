@@ -1,14 +1,14 @@
 import express from "express";
-import { login, logout, userinfo } from './../controllers/auth.js';
-import authMiddle from './../middleware/auth.js';
+import { signin, signout, signup } from './../controllers/auth.js';
 
 
 const router = express.Router();
 
 
-router.get('/logout', logout);
-router.post('/login', login);
-router.get("/:username", authMiddle, userinfo);
+router.post('/signup', signup);
+router.get('/signout', signout);
+router.post('/signin', signin);
+// router.get("/:username", authMiddle, userinfo);
 
 
 export default router;
