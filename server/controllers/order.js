@@ -6,9 +6,9 @@ const router = express.Router();
 // SHOW ALL ORDERS
 export const showOrders = async (req, res) => {
   try {
-    const allOrders = await Order.find().populate('productId').populate('supplierId');
+    const allOrders = await Order.find().populate('productId');
 
-    if (allOrders) res.status(200).json({ result: allOrders });
+    if (allOrders) res.status(200).json(allOrders);
     else res.status(201).json("No available orders right now!");
   } catch (error) {
     console.log(error);
@@ -28,7 +28,7 @@ export const addOrder = async (req, res) => {
     ecom_orderId,
     status,
   } = req.body;
-  // console.log(req.body);
+  console.log(req.body);
   if (
     !productId ||
     !supplierId ||
